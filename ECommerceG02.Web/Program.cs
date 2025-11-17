@@ -107,21 +107,21 @@ namespace ECommerceG02.Web
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occurred during database initialization");
 
-
-                app.UseMiddleware<CustomExceptionMiddleware>();
-
-                app.UseHttpsRedirection();
-                app.UseStaticFiles();
-
-                app.UseCors(app.Environment.IsDevelopment() ? "AllowAll" : "Production");
-
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.MapControllers();
-
-                app.Run();
             }
+            app.UseMiddleware<CustomExceptionMiddleware>();
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseCors(app.Environment.IsDevelopment() ? "AllowAll" : "Production");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
         }
+        
     }
 }

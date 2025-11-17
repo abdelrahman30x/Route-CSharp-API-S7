@@ -568,19 +568,19 @@ namespace ECommerceG02.Services
             if (string.IsNullOrEmpty(userId))
                 return null;
 
-            var username = await GetUserNameAsync(userId);
-            var email = await GetUserEmailAsync(userId);
-            var roles = await GetUserRolesAsync(userId);
-            var isEmailConfirmed = await IsUserEmailConfirmedAsync(userId);
+            var user = await _userManager.Users
+                .Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
-            return new UserDto
-            {
-                Id = userId,
-                UserName = username,
-                Email = email,
-                Roles = roles?.ToList() ?? new List<string>(),
-                EmailConfirmed = isEmailConfirmed
-            };
+            if (user == null)
+                return null;
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Roles = roles.ToList();
+
+            return userDto;
         }
 
         public async Task<string> GetCurrentUsernameAsync()

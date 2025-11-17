@@ -33,7 +33,9 @@ namespace ECommerceG02.Services.MappingProfiles
             CreateMap<CustomerBasket, BasketDto>().ReverseMap();
 
             CreateMap<RegisterDto, ApplicationUser>().ReverseMap();
-            CreateMap<ApplicationUser, UserDto>().ReverseMap();
+            CreateMap<ApplicationUser, UserDto>()
+                .ForMember(dest => dest.Roles, opt => opt.Ignore())
+                .ForMember(dest => dest.IsPhoneNumberConfirmed, opt => opt.MapFrom(src => src.PhoneNumberConfirmed));
             CreateMap<LoginDto, ApplicationUser>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<AddressDto, OrderAddress>().ReverseMap();
